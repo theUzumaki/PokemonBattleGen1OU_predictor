@@ -1,0 +1,134 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Local and IDE settings
+*.log
+local_settings.py
+db.sqlite3
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Thumbs
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints
+
+# virtualenv
+venv/
+env/
+ENV/
+.venv/
+.python-version
+
+# Logs and runtime files
+logs/
+*.log
+
+# Python bytecode and caches
+__pycache__/
+*.pyc
+
+# Secrets and environment files
+.env
+.env.*
+secrets.json
+credentials.json
+*.pem
+*.key
+
+# Large data, artifacts and model files
+/artifacts/
+/data/
+/models/
+artifacts/**
+data/**
+models/**
+*.joblib
+*.pkl
+*.model
+*.h5
+*.hdf5
+*.npz
+*.npy
+*.pt
+*.pth
+
+# JSONL data files
+*.jsonl
+/data/*.jsonl
+train.jsonl
+test.jsonl
+
+# Prediction outputs and large CSVs (project-specific)
+predictions_*.csv
+
+# Archives and packages
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+
+# Backup and temporary files
+*~
+*.swp
+*.swo
+*.bak
+
+# Misc
+.cache/
+node_modules/
+
+# End of generated rules for ignoring large files and artifacts
+
