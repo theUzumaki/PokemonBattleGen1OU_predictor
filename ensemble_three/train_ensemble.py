@@ -31,8 +31,7 @@ RANDOM_SEED = 42
 
 def train_bagging_ensemble(n_models: int = 5, random_seed: int = RANDOM_SEED, data_path: str = '../data/train.jsonl'):
     print("Loading data and extracting features...")
-    # Data path anchored to repository: ../data relative to ensemble_three package
-    battles = load_battle_data(BASE_DIR.parent / 'data' / 'train.jsonl')
+    battles = load_battle_data(Path(data_path))
     X_df, y = extract_features_and_labels(battles)
 
     # Split into train/test for evaluation and early stopping
