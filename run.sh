@@ -6,7 +6,10 @@ set -euo pipefail
 #   ./run.sh extract    # run feature extraction
 #   ./run.sh analyze    # run analysis / correlation plotting
 #   ./run.sh all        # do extract then analyze
-#   ./run.sh train      # placeholder for future training commands
+#   ./run.sh train      # run training
+#   ./run.sh predict    # emit predictions for logistic and xgboost
+#   ./run.sh predict_logistic       # emit predictions for logistic
+#   ./run.sh predict_xgboost        # emit predictions for xgboost
 
 # Defaults (override with environment variables)
 INPUT=${INPUT:-data/train.jsonl}
@@ -66,8 +69,25 @@ case "${1:-help}" in
     # call the new trainer script
     python3 -m src.train --features "$FEAT_CSV" --out "$MODELS_OUT"
     ;;
+  predict)
+    echo "Emitting predictions for logistic and xgboost models"
+    # Use the repository test set; override by setting PREDICT_INPUT env var
+    PREDICT_INPUT=${PREDICT_INPUT:-data/test.jsonl}
+    python3 -m src.predict -m logistic -i "$PREDICT_INPUT"
+    python3 -m src.predict -m xgboost -i "$PREDICT_INPUT"
+    ;;
+  predict_logistic)
+    echo "Emitting predictions for logistic model"
+    PREDICT_INPUT=${PREDICT_INPUT:-data/test.jsonl}
+    python3 -m src.predict -m logistic -i "$PREDICT_INPUT"
+    ;;
+  predict_xgboost)
+    echo "Emitting predictions for xgboost model"
+    PREDICT_INPUT=${PREDICT_INPUT:-data/test.jsonl}
+    python3 -m src.predict -m xgboost -i "$PREDICT_INPUT"
+    ;;
   help|--help|-h)
-  echo "Usage: $0 {extract|analyze|all|train|help}"
+  echo "Usage: $0 {extract|analyze|all|train|predict|predict_logistic|predict_xgboost|help}"
   echo "Environment variables: INPUT, FEATURES_DIR, ANALYSIS_OUT, MODELS_OUT, MAX_RECORDS"
     ;;
   *)

@@ -1,0 +1,15 @@
+{
+  "random_seed": 42,
+  "num_features": 77,
+  "metrics": {
+    "train_accuracy": 0.8928616077009626,
+    "train_precision": 0.8959173387096774,
+    "train_recall": 0.8889722430607652,
+    "train_roc_auc": 0.9630076894223556,
+    "test_accuracy": 0.83,
+    "test_precision": 0.8444676409185804,
+    "test_recall": 0.809,
+    "test_roc_auc": 0.9050720000000001
+  },
+  "model_type": "XGBClassifier"
+}

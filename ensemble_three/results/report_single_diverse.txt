@@ -1,0 +1,19 @@
+              precision    recall  f1-score   support
+
+        Loss       0.81      0.86      0.84      1000
+         Win       0.85      0.80      0.83      1000
+
+    accuracy                           0.83      2000
+   macro avg       0.83      0.83      0.83      2000
+weighted avg       0.83      0.83      0.83      2000
+
+
+Diverse Ensemble:
+              precision    recall  f1-score   support
+
+        Loss       0.81      0.86      0.83      1000
+         Win       0.85      0.80      0.82      1000
+
+    accuracy                           0.83      2000
+   macro avg       0.83      0.83      0.83      2000
+weighted avg       0.83      0.83      0.83      2000

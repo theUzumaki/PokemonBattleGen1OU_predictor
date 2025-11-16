@@ -1,0 +1,14 @@
+{
+  "single": {
+    "accuracy": 0.831,
+    "precision": 0.851380042462845,
+    "recall": 0.802,
+    "roc_auc": 0.9053450000000001
+  },
+  "ensemble": {
+    "accuracy": 0.834,
+    "precision": 0.8560767590618337,
+    "recall": 0.803,
+    "roc_auc": 0.9052319999999999
+  }
+}
