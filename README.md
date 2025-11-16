@@ -1,30 +1,65 @@
-Feature correlation helper
+**Project Overview**
 
-This repository includes `src/feature_correlation.py` — a script to extract numeric features
-from a JSONL battles dataset and compute correlations among them.
+This repository contains tools and models for predicting outcomes of Gen 1 OU Pokémon battles.
+The codebase includes feature extraction, model training, and ensemble prediction utilities
+used to create the shipped models and predictions in `artifacts/` and `models/`.
 
-Quick start
+**Quick Start**
 
-1. (Optional) Create a venv and install dependencies:
+- **Create venv**: `python -m venv .venv` then `source .venv/bin/activate`
+- **Install deps**: `pip install -r requirements.txt` (additional viz deps: `pip install pandas seaborn matplotlib`)
+- **Run a quick feature-correlation check**:
+   `python -m src.feature_correlation --input data/train.jsonl --output out --max-records 100`
 
-   python -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
-   pip install pandas seaborn matplotlib
+**What the feature-correlation script produces**
 
-2. Run the script on a subset for a fast check:
+- **`out/features_table.csv`**: Extracted numeric features per record
+- **`out/correlation_*.csv`**: Correlation matrices (Pearson, Spearman)
+- **`out/correlation_*_heatmap.png`**: Heatmap visualizations (if enabled)
+- **`out/top_corr_*.txt`**: Top correlated feature pairs
 
-   python -m src.feature_correlation --input data/train.jsonl --output out --max-records 100
+**Repository Layout (important files)**
 
-Outputs placed in `out/`:
-- `features_table.csv` — extracted features per record
-- `correlation_pearson.csv`, `correlation_spearman.csv` — correlation matrices
-- `correlation_<method>_heatmap.png` — saved heatmaps (unless disabled)
-- `top_corr_<method>.txt` — top correlated feature pairs
+- **`src/`**: Primary source code (feature extraction, training, prediction, analysis)
+- **`data/`**: Datasets used for training and testing (`train.jsonl`, `test.jsonl`, plus helpers)
+- **`models/`**: Saved ensemble models and metadata (`xgboost_ensemble_*.joblib`, `feature_names.joblib`)
+- **`artifacts/`**: Outputs from training and analysis (feature importances, scalers)
+- **`ensemble_three/`**: Ensemble training and prediction utilities; contains its own `models/` and `scripts/`
+- **`predictions_*.csv`**: Precomputed prediction outputs for convenience
+- **`requirements.txt`**: Python dependencies
+- **`run.sh`, `emit_pred.sh`**: Convenience scripts for running the pipeline or exporting predictions
 
-Notes
+**Common Tasks**
 
-- The script extracts team-level aggregate stats (mean/sum/min/max of base stats),
-  lead stats, timeline-derived features (num_turns, avg move base_power), and any
-  top-level numeric scalars it finds.
-- Adjust `--max-records` for quick iteration when the dataset is large.
+- **Extract features and compute correlations**:
+   `python -m src.feature_correlation --input data/train.jsonl --output out --max-records 100`
+- **Train models**:
+   Check `src/train.py` and `ensemble_three/train.py` for single-model and ensemble training flows.
+- **Predict with an ensemble**:
+   Use scripts in `ensemble_three/scripts/` (for example, `predict_xgboost_ensemble_3.py`) or the top-level predictor utilities in `src/predict.py`.
+
+**Helpful scripts**
+
+- **`run.sh`**: Top-level orchestration for common pipeline steps (see script header for usage)
+- **`emit_pred.sh`**: Convenience wrapper to emit predictions in a specific CSV layout
+- **`ensemble_three/predict_xgboost_ensemble_3.sh`**: Example ensemble prediction script
+
+**Notes & tips**
+
+- The repository assumes a reasonably recent Python 3 interpreter (3.8+ recommended).
+- Use `--max-records` for fast iterations on large datasets.
+- Models and scalers are serialized with `joblib` in `models/` and `ensemble_three/models/`.
+
+**Contributing / Extending**
+
+- To add features, update `src/feature_extractor.py` and re-run training.
+- To add a new model, implement training in `src/train.py` and add a predict wrapper in `src/predict.py`.
+
+**License & Contact**
+
+- This repository is shared for research and educational use. If you plan to reuse code or data,
+   please check any attached license files or contact the maintainer.
+
+If you'd like, I can also:
+- run the feature-correlation script on a small subset and show the outputs,
+- or open `src/feature_correlation.py` and propose improvements to the extraction process.
