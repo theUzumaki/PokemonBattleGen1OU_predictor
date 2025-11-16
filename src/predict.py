@@ -1,6 +1,11 @@
 import argparse
 import json
-import feature_extractor
+# When running as a module (python -m src.predict) use a relative import;
+# fall back to the top-level import to support running the file directly.
+try:
+    from . import feature_extractor
+except Exception:
+    import feature_extractor
 from pathlib import Path
 import numpy as np
 import joblib
