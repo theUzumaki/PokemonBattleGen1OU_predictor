@@ -59,7 +59,3 @@ used to create the shipped models and predictions in `artifacts/` and `models/`.
 
 - This repository is shared for research and educational use. If you plan to reuse code or data,
    please check any attached license files or contact the maintainer.
-
-If you'd like, I can also:
-- run the feature-correlation script on a small subset and show the outputs,
-- or open `src/feature_correlation.py` and propose improvements to the extraction process.
