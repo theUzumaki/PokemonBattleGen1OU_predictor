@@ -24,6 +24,29 @@ if [ -n "$MAX_RECORDS" ]; then
 fi
 ANALYZE_CMD=(python3 -m src.feature_analysis --features "$FEATURES_DIR/features.csv" --out "$ANALYSIS_OUT" --plot-top-k 12 --models-dir "$MODELS_OUT")
 
+# Helper: ensure required model files exist; if missing, run training (and extract features if needed)
+ensure_models() {
+  local models=("$@")
+  local need_train=false
+  for m in "${models[@]}"; do
+    if [ ! -f "$MODELS_OUT/${m}.joblib" ]; then
+      need_train=true
+      break
+    fi
+  done
+  if [ "$need_train" = true ]; then
+    echo "One or more required models missing: ${models[*]}. Running training..."
+    FEAT_CSV="$FEATURES_DIR/features.csv"
+    if [ ! -f "$FEAT_CSV" ]; then
+      echo "Features CSV not found at $FEAT_CSV — extracting features first..."
+      mkdir -p "$FEATURES_DIR"
+      eval "${EXTRACT_CMD[*]}"
+    fi
+    mkdir -p "$MODELS_OUT"
+    python3 -m src.train --features "$FEAT_CSV" --out "$MODELS_OUT"
+  fi
+}
+
 case "${1:-help}" in
   extract)
     echo "Running feature extraction -> $FEATURES_DIR/features.csv"
@@ -73,17 +96,21 @@ case "${1:-help}" in
     echo "Emitting predictions for logistic and xgboost models"
     # Use the repository test set; override by setting PREDICT_INPUT env var
     PREDICT_INPUT=${PREDICT_INPUT:-data/test.jsonl}
+    # Ensure models exist (train if missing)
+    ensure_models logistic xgboost
     python3 -m src.predict -m logistic -i "$PREDICT_INPUT"
     python3 -m src.predict -m xgboost -i "$PREDICT_INPUT"
     ;;
   predict_logistic)
     echo "Emitting predictions for logistic model"
     PREDICT_INPUT=${PREDICT_INPUT:-data/test.jsonl}
+    ensure_models logistic
     python3 -m src.predict -m logistic -i "$PREDICT_INPUT"
     ;;
   predict_xgboost)
     echo "Emitting predictions for xgboost model"
     PREDICT_INPUT=${PREDICT_INPUT:-data/test.jsonl}
+    ensure_models xgboost
     python3 -m src.predict -m xgboost -i "$PREDICT_INPUT"
     ;;
   help|--help|-h)
