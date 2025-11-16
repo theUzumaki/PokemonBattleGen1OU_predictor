@@ -15,7 +15,7 @@ import numpy as np
 from pathlib import Path
 from typing import List
 
-from train import load_battle_data, extract_features_and_labels, preprocess_features
+from .train import load_battle_data, extract_features_and_labels, preprocess_features
 from sklearn.model_selection import train_test_split
 import xgboost as xgb
 from xgboost import XGBClassifier
