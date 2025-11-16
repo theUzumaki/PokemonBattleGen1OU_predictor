@@ -60,7 +60,7 @@ ensure_ensemble_artifact() {
     # Try to run the ensemble training script
     if [ -f "$REPO_ROOT/ensemble_three/train_ensemble.py" ]; then
         echo "Running ensemble trainer (module mode)..."
-        (cd "$REPO_ROOT" && PYTHONPATH="$PYTHONPATH" python3 -m ensemble_three.train_ensemble)
+        (cd "$REPO_ROOT" && PYTHONPATH="$PYTHONPATH" python3 -m ensemble_three.train_ensemble --data_path "$INPUT_FILE")
     else
         echo "No ensemble trainer found at ensemble_three/train_ensemble.py; cannot train ensemble." >&2
         return 1

@@ -19,6 +19,7 @@ from .train import load_battle_data, extract_features_and_labels, preprocess_fea
 from sklearn.model_selection import train_test_split
 import xgboost as xgb
 from xgboost import XGBClassifier
+import argparse
 
 
 MODEL_DIR = Path('./models')
@@ -27,9 +28,9 @@ MODEL_DIR.mkdir(exist_ok=True)
 RANDOM_SEED = 42
 
 
-def train_bagging_ensemble(n_models: int = 5, random_seed: int = RANDOM_SEED):
+def train_bagging_ensemble(n_models: int = 5, random_seed: int = RANDOM_SEED, data_path: str = '../data/train.jsonl'):
     print("Loading data and extracting features...")
-    battles = load_battle_data(Path('../data/train.jsonl'))
+    battles = load_battle_data(Path(data_path))
     X_df, y = extract_features_and_labels(battles)
 
     # Split into train/test for evaluation and early stopping
@@ -109,7 +110,15 @@ def train_bagging_ensemble(n_models: int = 5, random_seed: int = RANDOM_SEED):
 
 
 def main():
-    train_bagging_ensemble(n_models=5)
+    parser = argparse.ArgumentParser(description="Train XGBoost bagging ensemble.")
+    parser.add_argument('--data_path', type=str, default='../data/train.jsonl',
+                        help='Path to training data JSONL file')
+    parser.add_argument('--n_models', type=int, default=5,
+                        help='Number of ensemble models to train')
+    args = parser.parse_args()
+
+    # Pass the data path to train_bagging_ensemble
+    train_bagging_ensemble(n_models=args.n_models, random_seed=RANDOM_SEED, data_path=args.data_path)
 
 
 if __name__ == '__main__':
