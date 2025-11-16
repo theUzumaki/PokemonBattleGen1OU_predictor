@@ -35,15 +35,16 @@ from .feature_extractor import extract_all_features, get_feature_names
 RANDOM_SEED = 42
 np.random.seed(RANDOM_SEED)
 
-# Paths
-DATA_DIR = Path('../data')
+# Base/package directories (anchor paths to package location)
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR.parent / 'data'
 TRAIN_FILE = DATA_DIR / 'train.jsonl'
-MODEL_DIR = Path('./models')
-RESULTS_DIR = Path('./results')
+MODEL_DIR = BASE_DIR / 'models'
+RESULTS_DIR = BASE_DIR / 'results'
 
 # Ensure directories exist
-MODEL_DIR.mkdir(exist_ok=True)
-RESULTS_DIR.mkdir(exist_ok=True)
+MODEL_DIR.mkdir(parents=True, exist_ok=True)
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def load_battle_data(file_path: Path) -> List[Dict]:

@@ -1,0 +1,12 @@
+{
+  "type": "xgboost_bagging_ensemble",
+  "n_models": 5,
+  "models": [
+    "xgboost_ensemble_1.joblib",
+    "xgboost_ensemble_2.joblib",
+    "xgboost_ensemble_3.joblib",
+    "xgboost_ensemble_4.joblib",
+    "xgboost_ensemble_5.joblib"
+  ],
+  "random_seed": 42
+}

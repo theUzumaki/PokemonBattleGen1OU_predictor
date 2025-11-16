@@ -22,15 +22,17 @@ from xgboost import XGBClassifier
 import argparse
 
 
-MODEL_DIR = Path('./models')
-MODEL_DIR.mkdir(exist_ok=True)
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_DIR = BASE_DIR / 'models'
+MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
 RANDOM_SEED = 42
 
 
 def train_bagging_ensemble(n_models: int = 5, random_seed: int = RANDOM_SEED, data_path: str = '../data/train.jsonl'):
     print("Loading data and extracting features...")
-    battles = load_battle_data(Path(data_path))
+    # Data path anchored to repository: ../data relative to ensemble_three package
+    battles = load_battle_data(BASE_DIR.parent / 'data' / 'train.jsonl')
     X_df, y = extract_features_and_labels(battles)
 
     # Split into train/test for evaluation and early stopping
