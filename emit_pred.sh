@@ -60,7 +60,13 @@ ensure_ensemble_artifact() {
     # Try to run the ensemble training script
     if [ -f "$REPO_ROOT/ensemble_three/train_ensemble.py" ]; then
         echo "Running ensemble trainer (module mode)..."
-        (cd "$REPO_ROOT" && PYTHONPATH="$PYTHONPATH" python3 -m ensemble_three.train_ensemble --data_path "$INPUT_FILE")
+        if [ "$REPO_ROOT" = "/kaggle/working/PokemonBattleGen1OU_predictor" ]; then
+            # On Kaggle use the provided train set path
+            INPUT_KAGGLE_TRAIN="$INPUT_KAGGLE_TRAIN"
+        else
+            INPUT_KAGGLE_TRAIN="$REPO_ROOT/data/train.jsonl"
+        fi
+        (cd "$REPO_ROOT" && PYTHONPATH="$PYTHONPATH" python3 -m ensemble_three.train_ensemble --data_path "$INPUT_KAGGLE_TRAIN")
     else
         echo "No ensemble trainer found at ensemble_three/train_ensemble.py; cannot train ensemble." >&2
         return 1
