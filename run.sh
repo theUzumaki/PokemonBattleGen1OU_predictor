@@ -13,6 +13,7 @@ set -euo pipefail
 
 # Defaults (override with environment variables)
 INPUT=${INPUT:-data/train.jsonl}
+KAGGLE_INPUT=${KAGGLE_INPUT:-}/kaggle/input/fds-pokemon-battles-prediction-2025/train.jsonl
 FEATURES_DIR=${FEATURES_DIR:-artifacts/features}
 ANALYSIS_OUT=${ANALYSIS_OUT:-artifacts/feature_analysis}
 MODELS_OUT=${MODELS_OUT:-artifacts/models}
@@ -96,6 +97,7 @@ case "${1:-help}" in
     echo "Emitting predictions for logistic and xgboost models"
     # Use the repository test set; override by setting PREDICT_INPUT env var
     PREDICT_INPUT=${PREDICT_INPUT:-data/test.jsonl}
+    KAGGLE_PREDICT_INPUT=${KAGGLE_PREDICT_INPUT:-}/kaggle/input/fds-pokemon-battles-prediction-2025/test.jsonl
     # Ensure models exist (train if missing)
     ensure_models logistic xgboost
     python3 -m src.predict -m logistic -i "$PREDICT_INPUT"
@@ -104,12 +106,14 @@ case "${1:-help}" in
   predict_logistic)
     echo "Emitting predictions for logistic model"
     PREDICT_INPUT=${PREDICT_INPUT:-data/test.jsonl}
+    KAGGLE_PREDICT_INPUT=${KAGGLE_PREDICT_INPUT:-}/kaggle/input/fds-pokemon-battles-prediction-2025/test.jsonl
     ensure_models logistic
     python3 -m src.predict -m logistic -i "$PREDICT_INPUT"
     ;;
   predict_xgboost)
     echo "Emitting predictions for xgboost model"
     PREDICT_INPUT=${PREDICT_INPUT:-data/test.jsonl}
+    KAGGLE_PREDICT_INPUT=${KAGGLE_PREDICT_INPUT:-}/kaggle/input/fds-pokemon-battles-prediction-2025/test.jsonl
     ensure_models xgboost
     python3 -m src.predict -m xgboost -i "$PREDICT_INPUT"
     ;;
